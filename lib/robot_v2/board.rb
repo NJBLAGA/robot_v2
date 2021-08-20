@@ -4,7 +4,7 @@ module RobotV2
   class Board
     attr_accessor :board
 
-    def initialization
+    def initialize
       @board = []
       @prev_position_x = 0
       @prev_position_y = 0
