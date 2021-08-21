@@ -26,8 +26,6 @@ module RobotV2
     def robot_report
       if robot_on_board
         puts "Output: Robot's Current Position at: #{@robot[:position]} Facing: #{@robot[:direction]}."
-      else
-        puts 'Robot has not been placed on the board'
       end
     end
   end
