@@ -17,14 +17,14 @@ require 'robot_v2'
 
 new_commands = RobotV2::Commands.new
 new_commands.create_new_board(5)
-new_commands.valid_placement(22, 0, 'NORTH')
-new_commands.turn_left
+new_commands.valid_placement(0, 0, 'NORTH')
+# new_commands.turn_right
 new_commands.move_robot
-# new_commands.report_position
-# new_commands.update_robot_position(0, 0, 'North')
+new_commands.report_position
+# new_commands.update_robot_position(4, 4, 'North')
 # new_commands.report_position
 # new_commands.update_robot_position(3, 2, 'North')
-new_commands.report_position
+# new_commands.report_position
 
 
 # # You can add fixtures and/or initialization code here to make experimenting

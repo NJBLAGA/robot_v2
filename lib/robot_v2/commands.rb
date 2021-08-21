@@ -19,6 +19,7 @@ module RobotV2
     def update_robot_position(new_x_position, new_y_position, new_direction)
       @rendered_robot[:position] = @robot.assign_position(new_x_position, new_y_position)
       @rendered_robot[:direction] = @robot.assign_direction(new_direction)
+      @rendered_robot
     end
 
     def negative_input(position_x, position_y)
@@ -26,8 +27,12 @@ module RobotV2
     end
 
     def valid_tile(position_x, position_y)
-      (@rendered_board[position_x][position_y].include?('X') == true ||
-      @rendered_board[position_x][position_y].include?('R') == true)
+      begin
+        (@rendered_board[position_x][position_y].include?('X') == true ||
+        @rendered_board[position_x][position_y].include?('R') == true)
+      rescue
+        puts 'Inputed coordinates are not within board limits.'
+      end
     end
 
     def valid_placement(new_x_position, new_y_position, new_direction)
@@ -38,10 +43,10 @@ module RobotV2
           update_robot_position(new_x_position, new_y_position, new_direction)
           @robot_placed = true
         else
-          puts 'Invalid Command -- Try Again'
+          puts 'ABORT COMMAND -- Action would cuase Robot to fall off the board. -- Please Try Again'
         end
       rescue 
-        puts 'Invalid Command -- Try Again'
+        puts 'Invalid Command -- Please Try Again'
       end
     end
 
@@ -70,11 +75,12 @@ module RobotV2
       when 'WEST'
         @rendered_robot[:position][1] += 1
       end
-      puts 'ABORT MOVE -- Action would cuase Robot to fall off the board. -- TRY AGAIN'
+      @rendered_robot
     end
 
     def check_move
       if valid_placement(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction]) == true
+      return @rendered_robot
       else
         revert_robot
       end
@@ -112,6 +118,7 @@ module RobotV2
       if @robot_placed == true
         @board.display_board(@rendered_robot[:position][0], @rendered_robot[:position][1])
         @robot.robot_report
+        @robot_placed
       end
     end
   end
