@@ -82,7 +82,7 @@ module RobotV2
 
     def handle_commands(player_inputs)
       filter_place_command(player_inputs)
-      case @player_move 
+      case @player_move
       when 'PLACE'
         @new_commands.valid_placement(@position_x, @position_y, @direction)
       when 'MOVE'

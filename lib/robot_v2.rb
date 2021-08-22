@@ -7,8 +7,6 @@ require 'robot_v2/commands'
 require 'robot_v2/prompt'
 require 'robot_v2/game'
 
-
-
 module RobotV2
   class Error < StandardError; end
   # Your code goes here...
