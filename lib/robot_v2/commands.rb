@@ -12,20 +12,24 @@ module RobotV2
       @robot_placed = false
     end
 
+    # Calls create_board method and constructs Board
     def create_new_board(size)
       @rendered_board = @board.create_board(size)
     end
 
+    # Updates the current position and direction of Robot
     def update_robot_position(new_x_position, new_y_position, new_direction)
       @rendered_robot[:position] = @robot.assign_position(new_x_position, new_y_position)
       @rendered_robot[:direction] = @robot.assign_direction(new_direction)
       @rendered_robot
     end
 
+    # Checks if input position are of a negative value
     def negative_input(position_x, position_y)
       position_x.negative? == false && position_y.negative? == false
     end
 
+    # Checks if input position is within Board limits
     def valid_tile(position_x, position_y)
       begin
         (@rendered_board[position_x][position_y].include?('X') == true ||
@@ -35,6 +39,7 @@ module RobotV2
       end
     end
 
+    # Checks if above validations are valid or invalid
     def valid_placement(new_x_position, new_y_position, new_direction)
       @position_x = new_x_position
       @position_y = new_y_position
@@ -50,6 +55,7 @@ module RobotV2
       end
     end
 
+    # If valid checks and moves Robot based on current direction
     def move_robot
       case @rendered_robot[:direction]
       when 'NORTH'
@@ -64,6 +70,7 @@ module RobotV2
       check_move
     end
 
+    # If move is invalid, reverts robot to prev position
     def revert_robot
       case @rendered_robot[:direction]
       when 'NORTH'
@@ -78,6 +85,7 @@ module RobotV2
       @rendered_robot
     end
 
+    # Checks if the Robot is on the Board
     def check_move
       begin
         if valid_placement(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction]) == true
@@ -90,6 +98,7 @@ module RobotV2
       end
     end
 
+    # If valid checks and turns Robot to the left based on current direction
     def turn_left
       begin
         case @rendered_robot[:direction]
@@ -108,6 +117,7 @@ module RobotV2
       end
     end
 
+    # If valid checks and turns Robot to the right based on current direction
     def turn_right
       begin
         case @rendered_robot[:direction]
@@ -126,6 +136,7 @@ module RobotV2
       end
     end
 
+    # If Robot is on the Board, prints curnrent location annd direction of Robot and prints current state of the board
     def report_position
       if @robot_placed == true
         @board.display_board(@rendered_robot[:position][0], @rendered_robot[:position][1])

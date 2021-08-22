@@ -1,0 +1,7 @@
+PLACE 0,0,NORTH
+MOVE
+movie
+hello
+goodbye
+1223423
+REPORT
