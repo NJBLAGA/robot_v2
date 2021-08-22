@@ -20,13 +20,22 @@ require 'robot_v2'
 # new_prompt.command_selection
 # new_prompt.exit_screen
 
-new_commands = RobotV2::Commands.new
-new_commands.create_new_board(5)
+new_game = RobotV2::Game.new
+new_game.input_commands
+
+# new_commands = RobotV2::Commands.new
+# new_commands.create_new_board(5)
 # new_commands.valid_placement(0, 0, 'NORTH')
-new_commands.turn_right
-new_commands.turn_left
-new_commands.move_robot
-new_commands.report_position
+# new_commands.turn_right
+# new_commands.move_robot
+# new_commands.turn_left
+# new_commands.move_robot
+# new_commands.move_robot
+# new_commands.report_position
+# new_commands.valid_placement(4, 4, 'SOUTH')
+# new_commands.turn_right
+# new_commands.move_robot
+# new_commands.report_position
 # new_commands.move_robot
 # new_commands.move_robot
 # new_commands.update_robot_position(4, 4, 'SOUTH')

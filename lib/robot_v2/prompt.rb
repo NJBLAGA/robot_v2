@@ -16,20 +16,22 @@ module RobotV2
     end
 
     def exit_screen
+      system('exit')
+      puts ' '
       puts '*-' * 50
       puts 'Thank you for playing -- Goodebye'
       puts '*-' * 50
     end
 
     def command_selection
-      puts "\n\sSelect on of the following commands:"
+      puts "\n\sSelect one of the following commands:"
       puts "\n\sPLACE  -- Example -> PLACE 2,2,NORTH"
       puts "\sMOVE"
       puts "\sLEFT"
       puts "\sRIGHT"
       puts "\sREPORT"
       puts "\sEXIT GAME"
-      puts "\n\sYour Command:"
+      puts "\nYour Command:"
     end
   end
 end
