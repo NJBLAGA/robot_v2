@@ -15,13 +15,25 @@ require 'robot_v2'
 # new_robot.assign_direction('North')
 # new_robot.robot_report
 
+# new_prompt = RobotV2::Prompt.new
+# new_prompt.title_screen
+# new_prompt.command_selection
+# new_prompt.exit_screen
+
 new_commands = RobotV2::Commands.new
 new_commands.create_new_board(5)
-new_commands.valid_placement(0, 0, 'NORTH')
-# new_commands.turn_right
+# new_commands.valid_placement(0, 0, 'NORTH')
+new_commands.turn_right
+new_commands.turn_left
 new_commands.move_robot
 new_commands.report_position
-# new_commands.update_robot_position(4, 4, 'North')
+# new_commands.move_robot
+# new_commands.move_robot
+# new_commands.update_robot_position(4, 4, 'SOUTH')
+# new_commands.turn_right
+# new_commands.move_robot
+# new_commands.move_robot
+# new_commands.report_position
 # new_commands.report_position
 # new_commands.update_robot_position(3, 2, 'North')
 # new_commands.report_position

@@ -79,39 +79,51 @@ module RobotV2
     end
 
     def check_move
+      begin
       if valid_placement(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction]) == true
       return @rendered_robot
       else
         revert_robot
       end
+      rescue
+        puts 'Robot has not been placed on Board -- Please try PLACE command first.'
+      end
     end
 
     def turn_left
-      case @rendered_robot[:direction]
-      when 'NORTH'
-        @rendered_robot[:direction] = 'WEST'
-      when 'EAST'
-        @rendered_robot[:direction] = 'NORTH'
-      when 'SOUTH'
-        @rendered_robot[:direction] = 'EAST'
-      when 'WEST'
-        @rendered_robot[:direction] = 'SOUTH'
+      begin
+        case @rendered_robot[:direction]
+        when 'NORTH'
+          @rendered_robot[:direction] = 'WEST'
+        when 'EAST'
+          @rendered_robot[:direction] = 'NORTH'
+        when 'SOUTH'
+          @rendered_robot[:direction] = 'EAST'
+        when 'WEST'
+          @rendered_robot[:direction] = 'SOUTH'
+        end
+        update_robot_position(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction])
+      rescue StandardError
+        puts 'Robot has not been placed on Board -- Please try PLACE command first.'
       end
-      update_robot_position(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction])
     end
 
     def turn_right
-      case @rendered_robot[:direction]
-      when 'NORTH'
-        @rendered_robot[:direction] = 'EAST'
-      when 'EAST'
-        @rendered_robot[:direction] = 'SOUTH'
-      when 'SOUTH'
-        @rendered_robot[:direction] = 'WEST'
-      when 'WEST'
-        @rendered_robot[:direction] = 'NORTH'
+      begin
+        case @rendered_robot[:direction]
+        when 'NORTH'
+          @rendered_robot[:direction] = 'EAST'
+        when 'EAST'
+          @rendered_robot[:direction] = 'SOUTH'
+        when 'SOUTH'
+          @rendered_robot[:direction] = 'WEST'
+        when 'WEST'
+          @rendered_robot[:direction] = 'NORTH'
+        end
+        update_robot_position(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction])
+      rescue StandardError
+        puts 'Robot has not been placed on Board -- Please try PLACE command first.'
       end
-      update_robot_position(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction])
     end
 
     def report_position
@@ -119,6 +131,9 @@ module RobotV2
         @board.display_board(@rendered_robot[:position][0], @rendered_robot[:position][1])
         @robot.robot_report
         @robot_placed
+      else
+        @board.display_board(nil, nil)
+        puts 'Robot has not been placed on the Board.'
       end
     end
   end
