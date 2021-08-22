@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module RobotV2
-
   class Game
     attr_accessor :propmt, :commands
 
@@ -13,11 +12,49 @@ module RobotV2
       @position_x = 0
       @position_y = 0
       @direction = ''
+      @mode = ''
+    end
+
+    def start_game
+      @new_prompt.title_screen
+      @new_commands.create_new_board(5)
+      select_mode
+    end
+
+    def select_mode
+      @new_prompt.mode
+      puts ''
+      begin
+        @mode = gets.chomp.upcase
+        handle_mode
+      rescue StandardError
+        puts 'INVALID OPTION -- Please Try Again'
+      end
+    end
+
+    def handle_mode
+      case @mode
+      when '1'
+        input_commands
+      when '2'
+        handle_auto
+      when '3'
+        @new_prompt.exit_screen
+      end
+    end
+
+    def handle_auto
+      test_file = @new_prompt.auto_mode
+      File.open(test_file, 'r') do |file|
+        commands = file.readlines
+        commands.each do |command|
+          handle_commands(command)
+          puts ' '
+        end
+      end
     end
 
     def input_commands
-      @new_prompt.title_screen
-      @new_commands.create_new_board(5)
       @new_prompt.command_selection
       command = gets.chomp.upcase
       while command != 'EXIT GAME'

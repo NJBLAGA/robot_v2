@@ -4,49 +4,8 @@
 require 'bundler/setup'
 require 'robot_v2'
 
-# new_board = RobotV2::Board.new
-# new_board.create_board(5)
-# new_board.display_board(2, 0)
-# new_board.display_board(4, 4)
-# new_board.display_board(2, 2)
-
-# new_robot = RobotV2::Robot.new
-# new_robot.assign_position(3, 3)
-# new_robot.assign_direction('North')
-# new_robot.robot_report
-
-# new_prompt = RobotV2::Prompt.new
-# new_prompt.title_screen
-# new_prompt.command_selection
-# new_prompt.exit_screen
-
 new_game = RobotV2::Game.new
-new_game.input_commands
-
-# new_commands = RobotV2::Commands.new
-# new_commands.create_new_board(5)
-# new_commands.valid_placement(0, 0, 'NORTH')
-# new_commands.turn_right
-# new_commands.move_robot
-# new_commands.turn_left
-# new_commands.move_robot
-# new_commands.move_robot
-# new_commands.report_position
-# new_commands.valid_placement(4, 4, 'SOUTH')
-# new_commands.turn_right
-# new_commands.move_robot
-# new_commands.report_position
-# new_commands.move_robot
-# new_commands.move_robot
-# new_commands.update_robot_position(4, 4, 'SOUTH')
-# new_commands.turn_right
-# new_commands.move_robot
-# new_commands.move_robot
-# new_commands.report_position
-# new_commands.report_position
-# new_commands.update_robot_position(3, 2, 'North')
-# new_commands.report_position
-
+new_game.start_game
 
 # # You can add fixtures and/or initialization code here to make experimenting
 # # with your gem easier. You can also use a different console, if you like.

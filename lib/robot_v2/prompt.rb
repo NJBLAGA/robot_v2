@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 module RobotV2
-
   class Prompt
     attr_accessor :prompt
 
     def initialize
-      @directions = ['NORTH', 'EAST', 'SOUTH', 'WEST']
     end
 
     def title_screen
@@ -21,6 +19,24 @@ module RobotV2
       puts '*-' * 50
       puts 'Thank you for playing -- Goodebye'
       puts '*-' * 50
+    end
+
+    def mode
+      puts "\n\sWould you like to play in:"
+      puts ''
+      puts "\sManual Mode  -- Type 1"
+      puts "\sAuto Mode    -- Type 2"
+      puts "\sExit Game    -- Type 3"
+    end
+
+    def auto_mode
+      print 'Enter a Test file:'
+      test_file = gets.chomp
+      while !File.exists?(test_file)
+        puts 'INVALID FILE -- Please check the spelling or existance of selected test-file.'
+        test_file = gets.chomp
+      end
+      test_file
     end
 
     def command_selection

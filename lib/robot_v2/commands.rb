@@ -30,7 +30,7 @@ module RobotV2
       begin
         (@rendered_board[position_x][position_y].include?('X') == true ||
         @rendered_board[position_x][position_y].include?('R') == true)
-      rescue
+      rescue StandardError
         puts 'Inputed coordinates are not within board limits.'
       end
     end
@@ -45,7 +45,7 @@ module RobotV2
         else
           puts 'ABORT COMMAND -- Action would cuase Robot to fall off the board. -- Please Try Again'
         end
-      rescue 
+      rescue StandardError
         puts 'Invalid Command -- Please Try Again'
       end
     end
@@ -80,12 +80,12 @@ module RobotV2
 
     def check_move
       begin
-      if valid_placement(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction]) == true
-      return @rendered_robot
-      else
-        revert_robot
-      end
-      rescue
+        if valid_placement(@rendered_robot[:position][0], @rendered_robot[:position][1], @rendered_robot[:direction]) == true
+          @rendered_robot
+        else
+          revert_robot
+        end
+      rescue StandardError
         puts 'Robot has not been placed on Board -- Please try PLACE command first.'
       end
     end
