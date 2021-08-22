@@ -20,6 +20,10 @@ Follow the below steps to successfully install and run `RobotV2`
 
 Once you are in the main directory of `RobotV2`, run the command `./bin/console` within your terminal.
 
+## Run Rspec tests
+
+Once you are in the main directory of `RobotV2`, run the command `bundle exec rspec spec` within your terminal.
+
 ## RobotV2 -- Mode Options
 
 Once the above command is run, the main menu should be displayed on the screen. `RobotV2` offers two modes -- `Manual` and `Auto`.
