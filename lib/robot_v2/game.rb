@@ -15,12 +15,14 @@ module RobotV2
       @mode = ''
     end
 
+    # Creates new instance of Board and calls Mode selection screen
     def start_game
       @new_prompt.title_screen
       @new_commands.create_new_board(5)
       select_mode
     end
 
+    # Prompts User for Mode selection
     def select_mode
       @new_prompt.mode
       puts ''
@@ -32,6 +34,7 @@ module RobotV2
       end
     end
 
+    # Handles player inputs and calls respective methods
     def handle_mode
       case @mode
       when '1'
@@ -43,6 +46,7 @@ module RobotV2
       end
     end
 
+    # Opens selected file and reads each line within text file
     def handle_auto
       test_file = @new_prompt.auto_mode
       File.open(test_file, 'r') do |file|
@@ -54,6 +58,7 @@ module RobotV2
       end
     end
 
+    # Runs while loop to ensure the player continues to play in manual mode
     def input_commands
       @new_prompt.command_selection
       command = gets.chomp.upcase
@@ -66,6 +71,7 @@ module RobotV2
       @new_prompt.exit_screen
     end
 
+    # Runs regular expression to spilt place method
     def filter_place_command(player_inputs)
       begin
         if player_inputs.include? 'PLACE'
@@ -80,6 +86,7 @@ module RobotV2
       end
     end
 
+    # Handles player inputs and returns respected methods
     def handle_commands(player_inputs)
       filter_place_command(player_inputs)
       case @player_move

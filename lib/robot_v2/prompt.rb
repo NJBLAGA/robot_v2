@@ -7,12 +7,14 @@ module RobotV2
     def initialize
     end
 
+    # Prints Title screen
     def title_screen
       puts '*-' * 50
       puts 'Toy Robot Challenge -- Version 2.0'
       puts '*-' * 50
     end
 
+    # Prints Exit screen
     def exit_screen
       system('exit')
       puts ' '
@@ -21,6 +23,7 @@ module RobotV2
       puts '*-' * 50
     end
 
+    # Prints Mode Selection screen
     def mode
       puts "\n\sWould you like to play in:"
       puts ''
@@ -29,16 +32,19 @@ module RobotV2
       puts "\sExit Game    -- Type 3"
     end
 
+    # Prints Auto Mode and file seclection screen
     def auto_mode
       print 'Enter a Test file:'
       test_file = gets.chomp
-      while !File.exists?(test_file)
+      while !File.exists?("./test_files/#{test_file}.txt")
         puts 'INVALID FILE -- Please check the spelling or existance of selected test-file.'
         test_file = gets.chomp
       end
-      test_file
+      found_valid_file = "./test_files/#{test_file}.txt"
+      p found_valid_file
     end
 
+    # Prints Command Selection screen
     def command_selection
       puts "\n\sSelect one of the following commands:"
       puts "\n\sPLACE  -- Example -> PLACE 2,2,NORTH"
