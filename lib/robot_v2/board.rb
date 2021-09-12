@@ -34,11 +34,16 @@ module RobotV2
       @board[position_x][position_y] = 'R'
     end
 
+    def place_obstacle(position_x, position_y)
+      @board[position_x][position_y] = 'O'
+    end
+
     # Displays the Board and current postion of Robot if conditions are met
     def display_board(position_x, position_y)
       if position_x.nil? || position_y.nil?
       else
         update_last_position
+        place_obstacle(position_x, position_y)
         place_robot(position_x, position_y)
       end
       draw_board
