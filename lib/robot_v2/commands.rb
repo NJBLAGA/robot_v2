@@ -10,6 +10,7 @@ module RobotV2
       @rendered_robot = {}
       @rendered_board = nil
       @robot_placed = false
+      @obstacles = []
     end
 
     # Calls create_board method and constructs Board
@@ -44,7 +45,7 @@ module RobotV2
       @position_x = new_x_position
       @position_y = new_y_position
       begin
-        if negative_input(@position_x, @position_y) == true && valid_tile(@position_x, @position_y) == true
+        if negative_input(@position_x, @position_y) == true && valid_tile(@position_x, @position_y) == true && !check_obstacles(@position_x, @position_y)
           update_robot_position(new_x_position, new_y_position, new_direction)
           @robot_placed = true
         else
@@ -83,6 +84,18 @@ module RobotV2
         @rendered_robot[:position][1] += 1
       end
       @rendered_robot
+    end
+
+    def create_obstacle(position_x, position_y)
+      if !@obstacles.include?([position_x, position_y])
+        @obstacles.push([position_x, position_y])
+        @board.place_obstacle(position_x, position_y)
+      end
+    end
+
+    def check_obstacles(position_x, position_y)
+      current_position = [position_x, position_y]
+      @obstacles.include?(current_position)
     end
 
     # Checks if the Robot is on the Board
@@ -134,6 +147,10 @@ module RobotV2
       rescue StandardError
         puts 'Robot has not been placed on Board -- Please try PLACE command first.'
       end
+    end
+
+    def set_obstacle(position_x, position_y)
+      @rendered_board[position_x][position_y]
     end
 
     # If Robot is on the Board, prints curnrent location annd direction of Robot and prints current state of the board

@@ -8,6 +8,8 @@ module RobotV2
       @new_prompt = RobotV2::Prompt.new
       @new_commands = RobotV2::Commands.new
       @player_command = ''
+      @obs_command = ''
+      @player_obs  = ''
       @player_move = ''
       @position_x = 0
       @position_y = 0
@@ -86,9 +88,23 @@ module RobotV2
       end
     end
 
+    def filter_obstacles(player_inputs)
+      begin
+        if player_inputs.include? 'OBSTACLE'
+          @obs_command = player_inputs.match(/^OBSTACLE *([0-4]), *([0-4])$/i)
+          @obs_postion_x = @obs_command[1].to_i
+          @obs_postion_y = @obs_command[2].to_i
+        end
+        @player_move = player_inputs.split(' ').first
+      rescue StandardError
+        puts 'The OBSTACLE command must include valid x,y coordinates.'
+      end
+    end
+
     # Handles player inputs and returns respected methods
     def handle_commands(player_inputs)
       filter_place_command(player_inputs)
+      filter_obstacles(player_inputs)
       case @player_move
       when 'PLACE'
         @new_commands.valid_placement(@position_x, @position_y, @direction)
@@ -98,6 +114,9 @@ module RobotV2
         @new_commands.turn_left
       when 'RIGHT'
         @new_commands.turn_right
+      when 'OBSTACLE'
+        @new_commands.create_obstacle(@obs_postion_x, @obs_postion_y)
+        @new_commands.check_obstacles( @obs_postion_x, @obs_postion_y )
       when 'REPORT'
         @new_commands.report_position
       else
