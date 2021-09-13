@@ -153,6 +153,50 @@ module RobotV2
       @rendered_board[position_x][position_y]
     end
 
+    def find_path(path_position_x, path_position_y)
+      begin
+        current_position = @rendered_robot[:position]
+        target_position = [path_position_x, path_position_y]
+        shortest_path(@rendered_board, current_position, target_position, @obstacles)
+      rescue StandardError
+        puts 'Robot has not been placed on Board -- Please try PLACE command first.'
+      end
+    end
+
+    def find_adjacent_tiles_to_current_position(board, current_position, obstacles)
+      current_pos_x = current_position[0]
+      current_pos_y = current_position[1]
+      all_current_adjacent_tiles = [[current_pos_x - 1, current_pos_y], [current_pos_x, current_pos_y + 1],
+                                    [current_pos_x + 1, current_pos_y], [current_pos_x, current_pos_y - 1]]
+      all_current_adjacent_tiles.select { |tile| tile[0].between?(0, board.size - 1) && tile[1].between?(0, board.first.size - 1) && !obstacles.include?(tile) }
+    end
+
+    def possible_paths( board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
+      if current_position == target_position
+        current_path_taken.push([current_position[0], current_position[1]])
+        possible_path_list.push(current_path_taken)
+      else
+        find_adjacent_tiles_to_current_position(board, current_position, obstacles).each do |adjacent_position|
+          if !current_path_taken.include?([current_position[0], current_position[1]])
+            next_possible_path = current_path_taken.clone.push([current_position[0], current_position[1]])
+            possible_paths(board, adjacent_position, target_position, next_possible_path, possible_path_list, obstacles)
+          end
+        end
+      end
+    end
+
+    def shortest_path(board, current_position, target_position, obstacles)
+      possible_path_list = []
+      current_path_taken = []
+      possible_paths(board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
+      if possible_path_list.empty?
+        puts 'Path could not be found'
+      else
+        shortest_path = possible_path_list.sort_by(&:size).first
+        puts "Shortest Path: #{shortest_path}"
+      end
+    end
+
     # If Robot is on the Board, prints curnrent location annd direction of Robot and prints current state of the board
     def report_position
       if @robot_placed == true

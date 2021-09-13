@@ -52,6 +52,7 @@ module RobotV2
       puts "\sLEFT"
       puts "\sRIGHT"
       puts "\sOBSTACLE"
+      puts "\sPATH"
       puts "\sREPORT"
       puts "\sEXIT GAME"
       puts "\nYour Command:"
