@@ -74,52 +74,32 @@ module RobotV2
       @new_prompt.exit_screen
     end
 
-    # Runs regular expression to spilt place method
-    def filter_place_command(player_inputs)
-      begin
-        if player_inputs.include? 'PLACE'
-        @place_command = player_inputs.match(/^PLACE *([0-4]), *([0-4]),\s*(NORTH|SOUTH|EAST|WEST)$/i)
-        @position_x = @place_command[1].to_i
-        @position_y = @place_command[2].to_i
-        @direction = @place_command[3]
-        end
-        @player_move = player_inputs.split(' ').first
-      rescue StandardError
-        puts 'The PLACE command must include valid x,y,f coordinates.'
-      end
-    end
-
-    def filter_obstacles(player_inputs)
-      begin
-        if player_inputs.include? 'OBSTACLE'
-          @obs_command = player_inputs.match(/^OBSTACLE *([0-4]), *([0-4])$/i)
-          @obs_postion_x = @obs_command[1].to_i
-          @obs_postion_y = @obs_command[2].to_i
-        end
-        @player_move = player_inputs.split(' ').first
-      rescue StandardError
-        puts 'The OBSTACLE command must include valid x,y coordinates.'
-      end
-    end
-
-    def filter_path(player_inputs)
+    # Runs regular expression to spilt commands method
+    def filter_commands(player_inputs)
       begin
         if player_inputs.include? 'PATH'
           @path_command = player_inputs.match(/^PATH *([0-4]), *([0-4])$/i)
           @path_position_x = @path_command[1].to_i
           @path_position_y = @path_command[2].to_i
+        elsif player_inputs.include? 'OBSTACLE'
+          @obs_command = player_inputs.match(/^OBSTACLE *([0-4]), *([0-4])$/i)
+          @obs_postion_x = @obs_command[1].to_i
+          @obs_postion_y = @obs_command[2].to_i
+        elsif player_inputs.include? 'PLACE'
+          @place_command = player_inputs.match(/^PLACE *([0-4]), *([0-4]),\s*(NORTH|SOUTH|EAST|WEST)$/i)
+          @position_x = @place_command[1].to_i
+          @position_y = @place_command[2].to_i
+          @direction = @place_command[3]
         end
         @player_move = player_inputs.split(' ').first
       rescue StandardError
-        puts 'The PATH command must include valid x,y coordinates.'
+        puts 'Must include valid coordinates.'
       end
     end
 
     # Handles player inputs and returns respected methods
     def handle_commands(player_inputs)
-      filter_place_command(player_inputs)
-      filter_obstacles(player_inputs)
-      filter_path(player_inputs)
+      filter_commands(player_inputs)
       case @player_move
       when 'PLACE'
         @new_commands.valid_placement(@position_x, @position_y, @direction)

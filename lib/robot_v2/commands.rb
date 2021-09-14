@@ -87,15 +87,23 @@ module RobotV2
     end
 
     def create_obstacle(position_x, position_y)
-      if !@obstacles.include?([position_x, position_y])
-        @obstacles.push([position_x, position_y])
-        @board.place_obstacle(position_x, position_y)
+      begin
+        if !@obstacles.include?([position_x, position_y] && negative_input(position_x, position_y))
+          @obstacles.push([position_x, position_y])
+          @board.place_obstacle(position_x, position_y)
+        end
+      rescue StandardError
+        puts 'Try Again'
       end
     end
 
     def check_obstacles(position_x, position_y)
       current_position = [position_x, position_y]
       @obstacles.include?(current_position)
+    end
+
+    def set_obstacle(position_x, position_y)
+      @rendered_board[position_x][position_y]
     end
 
     # Checks if the Robot is on the Board
@@ -149,15 +157,15 @@ module RobotV2
       end
     end
 
-    def set_obstacle(position_x, position_y)
-      @rendered_board[position_x][position_y]
-    end
-
     def find_path(path_position_x, path_position_y)
       begin
         current_position = @rendered_robot[:position]
         target_position = [path_position_x, path_position_y]
-        find_optimised_path(@rendered_board, current_position, target_position, @obstacles)
+        if !@rendered_board.include?(target_position[0][1])
+          find_optimised_path(@rendered_board, current_position, target_position, @obstacles)
+        else
+          puts 'Try Again'
+        end
       rescue StandardError
         puts 'Robot has not been placed on Board -- Please try PLACE command first.'
       end
@@ -168,7 +176,7 @@ module RobotV2
       current_pos_y = current_position[1]
       all_current_adjacent_tiles = [[current_pos_x - 1, current_pos_y], [current_pos_x, current_pos_y + 1],
                                     [current_pos_x + 1, current_pos_y], [current_pos_x, current_pos_y - 1]]
-      all_current_adjacent_tiles.select { |tile| tile[0].between?(0, board.size - 1) && tile[1].between?(0, board.first.size - 1) && !obstacles.include?(tile) }
+      all_current_adjacent_tiles.select { |tile| tile[0].between?(0, board.size - 1) && tile[1].between?(0, board.first.size - 1) && !@obstacles.include?(tile)}
     end
 
     def possible_paths( board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
@@ -189,11 +197,11 @@ module RobotV2
       possible_path_list = []
       current_path_taken = []
       possible_paths(board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
-      if possible_path_list.empty?
+      if possible_path_list.empty? && !board.include?(target_position) && negative_input(target_position[0], target_position[1])
         puts 'Path could not be found'
       else
         current_optimised_path = possible_path_list.sort_by(&:size).first
-        puts "Optimised Path: #{current_optimised_path}"
+        puts "Path: #{current_optimised_path}"
       end
     end
 
