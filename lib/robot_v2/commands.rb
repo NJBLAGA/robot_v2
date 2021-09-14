@@ -171,11 +171,11 @@ module RobotV2
       possible_path_list = []
       current_path_taken = []
       possible_paths(board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
-      if possible_path_list.empty? && !board.include?(target_position) && negative_input(target_position[0], target_position[1])
-        puts 'Path could not be found'
-      else
+      if !possible_path_list.empty? && negative_input(target_position[0], target_position[1])
         current_optimised_path = possible_path_list.sort_by(&:size).first
         puts "Path: #{current_optimised_path}"
+      else
+        puts 'Path could not be found'
       end
     end
 
@@ -187,8 +187,8 @@ module RobotV2
       all_current_adjacent_tiles.select { |tile| tile[0].between?(0, board.size - 1) && tile[1].between?(0, board.first.size - 1) && !@obstacles.include?(tile)}
     end
 
-    def possible_paths( board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
-      if current_position == target_position
+    def possible_paths(board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
+      if current_position == target_position 
         current_path_taken.push([current_position[0], current_position[1]])
         possible_path_list.push(current_path_taken)
       else

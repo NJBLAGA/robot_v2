@@ -94,6 +94,7 @@ module RobotV2
         @player_move = player_inputs.split(' ').first
       rescue StandardError
         puts 'Must include valid coordinates.'
+        input_commands
       end
     end
 
