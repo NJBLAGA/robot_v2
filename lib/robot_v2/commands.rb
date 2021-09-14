@@ -161,13 +161,21 @@ module RobotV2
       begin
         current_position = @rendered_robot[:position]
         target_position = [path_position_x, path_position_y]
-        if !@rendered_board.include?(target_position[0][1])
-          find_optimised_path(@rendered_board, current_position, target_position, @obstacles)
-        else
-          puts 'Try Again'
-        end
+        find_optimised_path(@rendered_board, current_position, target_position, @obstacles)
       rescue StandardError
         puts 'Robot has not been placed on Board -- Please try PLACE command first.'
+      end
+    end
+
+    def find_optimised_path(board, current_position, target_position, obstacles)
+      possible_path_list = []
+      current_path_taken = []
+      possible_paths(board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
+      if possible_path_list.empty? && !board.include?(target_position) && negative_input(target_position[0], target_position[1])
+        puts 'Path could not be found'
+      else
+        current_optimised_path = possible_path_list.sort_by(&:size).first
+        puts "Path: #{current_optimised_path}"
       end
     end
 
@@ -190,18 +198,6 @@ module RobotV2
             possible_paths(board, adjacent_position, target_position, next_possible_path, possible_path_list, obstacles)
           end
         end
-      end
-    end
-
-    def find_optimised_path(board, current_position, target_position, obstacles)
-      possible_path_list = []
-      current_path_taken = []
-      possible_paths(board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
-      if possible_path_list.empty? && !board.include?(target_position) && negative_input(target_position[0], target_position[1])
-        puts 'Path could not be found'
-      else
-        current_optimised_path = possible_path_list.sort_by(&:size).first
-        puts "Path: #{current_optimised_path}"
       end
     end
 
