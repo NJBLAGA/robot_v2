@@ -43,7 +43,6 @@ module RobotV2
       if position_x.nil? || position_y.nil?
       else
         update_last_position
-        place_obstacle(position_x, position_y)
         place_robot(position_x, position_y)
       end
       draw_board

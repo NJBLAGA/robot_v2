@@ -109,6 +109,31 @@ While designing tests for each class, I focused on the following:
 - Although handling the players input/commands has been handled in a more graceful manner compared to me first attempt, improvements could be made to reduce the doubling-up of code.
 - Naming of Classes and variables was a focus throughout development, while still a work in progress, I aimed in ensuring the names were suggestive to any reader.
 
+## PATH_FINDING Challenge Assumptions / Self-Reflection
+
+- The `path` command takes a `target_position` selected by the player
+- The command uses the `current position` of the Robot as the starting point
+- This means the command cannot be used and executed unless the Robot is on the board.
+- The `filter_commands` method in the `game` class replaced the `filter_place` and `filter_obstacle` command previously used.
+- I don't like it as a method, as it violates SOLID principles, does not benefit the class speaking within a OO mindset, and narrows the error-handling around the three commands.
+
+**The `Command` class uses several methods to execute the `Path` command:**
+
+- This solution does not address the advanced problem of returning the set of commands needed to move and turn the robot from starting position to the target position.
+- find_path(path_position_x, path_position_y) takes the `x` and `y` positioning selected by the player and returns the `find_position` method
+- find_optimised_path(board, current_position, target_position, obstacles)
+  Returns the `possible_paths` method, which returns the `possible_path_list` array, of all possible paths from the Robot's current position to the target position. It takes the `possible_path_list`, sorts it by size and returns the first element (smallest in size). Not the most optimal way as there could be multiple paths with the same size in regards to steps taken.
+- find_adjacent_tiles_to_current_position(board, current_position, obstacles)
+  First returns `all_current_adjacent_tiles` variables, this contains all possible movements the Robot can take from it's current position. The variable (array) is then filtered through the `select` method. This will remove any tiles that are not within the board's limitations and any tiles that currently have an obstacle on them.
+- possible_paths(board, current_position, target_position, current_path_taken, possible_path_list, obstacles)
+  Using recursion, this method sets the base case to check if the Robot's current position is equal to that of the target_position or if a visited position is revisited. If this is the case, the last current position should equal the target position and the terminate the loop by returning `possible_path_list` to the `find_optimised_path` method. If the the base case has not been met, then `possible_paths` method will call itself in a endless loop. This will lead to a for each loop being run on the array returned from `current_path_taken` method. Within each loop the method will check if the current tile (node) has been visited. If not then, the current array holding the selection of adjacent tiles will be copied and pushed into the `next_possible_path` array and used as the `current_path_taken` argument.
+
+**Research:**
+
+- Although I have tackled various algorithms throughout my boot-camp, this was one of the more difficult steps of the challenge.
+- Dijkstra's algorithm was not the best option as each tile the Robot moved on, counts as 1 step, and could not be assigned values to effectively utilise Dijkstra. With this in mind, I decided to work with a `Breadth-First Search (BFS)` approach, which lead to my current solution.
+- I decided to tackle the problem in smaller steps, in that I first tried to have the command return a path from the current position of the Robot to the target position without considering the obstacles. Once I achieved this, it was not to much effort to introduce the obstacles within the logic of the `path` command.
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

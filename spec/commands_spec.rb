@@ -70,4 +70,10 @@ RSpec.describe RobotV2::Commands do
     test_commands5.valid_placement(4, 4, 'NORTH')
     expect(test_commands5.report_position).to eql(true)
   end
+
+  it 'Finds adjacent tiles to current_position.' do
+    test_commands6 = RobotV2::Commands.new
+    board = [['X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X'], ['X', 'X', 'X', 'X', 'X']]
+    expect(test_commands6.find_adjacent_tiles_to_current_position(board, [0, 0], [])).to eql([[0, 1], [1, 0]])
+  end
 end
